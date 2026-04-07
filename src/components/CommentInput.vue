@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 
-const commentText = ref('');
+const commentUser = ref('')
+const commentText = ref('')
 const emit = defineEmits(['new-comment'])
 
 const submitComment = () => {
-    emit('new-comment', commentText.value);
+    if (!commentUser.value || !commentText.value) return;
+    emit('new-comment', commentUser.value, commentText.value);
     commentText.value = '';
 }
 
@@ -14,6 +16,7 @@ const submitComment = () => {
 <template>
     <div class="field">
         <div class="control">
+            <input v-model="commentUser" class="input" type="text" placeholder="Your Name"></input>
             <textarea v-model="commentText" class="textarea" placeholder="Comment here..."></textarea>
         </div>
         <div class="control mt-5">

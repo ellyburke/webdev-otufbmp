@@ -4,8 +4,8 @@ import CommentInput from './CommentInput.vue';
 
 const comments = ref([])
 
-const handleNewComment = (commentText) => {
-    comments.value.push({ user: 'User', text: commentText });
+const handleNewComment = (commentUser, commentText) => {
+    comments.value.push({ user: commentUser, text: commentText });
 }
 
 </script>
