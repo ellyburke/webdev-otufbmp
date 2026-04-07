@@ -1,1 +1,9 @@
-
+{
+  "item_id": "test",
+  "name": "test",
+  "price": 9999,
+  "comments": [
+    { "user": "John", "text": "Works perfectly!" },
+    { "user": "Joe", "text": "10/10 seller" }
+  ]
+}
