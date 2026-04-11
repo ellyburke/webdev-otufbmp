@@ -13,6 +13,7 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
+        price REAL NOT NULL,
         description TEXT NOT NULL
     )`);
     db.run(`CREATE TABLE IF NOT EXISTS comments (
@@ -33,6 +34,37 @@ app.get('/items', (req, res) => {
         });
     });
 });
+
+/*
+Start of Added Item Listing Server-side Functionality:
+*/
+
+app.get('/all-items', (req, res) => {
+    db.all("SELECT * FROM items ORDER BY id DESC", [], (err, rows) => {
+        res.json(rows);
+    });
+});
+
+app.post('/items', (req, res) => {
+    const { name, price, description } = req.body;
+
+    db.run(
+        "INSERT INTO items (name, price, description) VALUES (?, ?, ?)",
+        [name, price, description],
+        function(err) {
+            res.json({
+                id: this.lastID,
+                name,
+                price,
+                description
+            });
+        }
+    );
+});
+
+/*
+End of Added Item Listing Server-side Functionality
+*/
 
 app.post('/comments', (req, res) => {
     const { item_id, user, text } = req.body;
