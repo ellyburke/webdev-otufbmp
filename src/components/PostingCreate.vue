@@ -1,12 +1,18 @@
 <template>
     <div class="post-box">
-        <h2>Put up an Item!</h2>
+        <br>
+        <h2 class="title is-2">Start your next sale!</h2>
         <form @submit.prevent="listItem">
-            <input v-model="title" placeholder="Name of Item" />
-            <input v-model="price" type="number" placeholder="Price" />
-            <textarea v-model="description" placeholder="Description for product..."></textarea>
-
-            <button @click="listItem">Post Listing</button>
+            <h2 class="subtitle is-5">Listing title:</h2>
+            <input class="input is-info" v-model="title" placeholder="Name of the item..." />
+            <br><br>
+            <h2 class="subtitle is-5">What's the price:</h2>
+            <input class="input is-info" v-model="price" type="number" placeholder="$0" />
+            <br><br>
+            <h2 class="subtitle is-5">What do people need to know:</h2>
+            <textarea class="input is-info" v-model="description" placeholder="Listing description..."></textarea>
+            <br><br>
+            <button @click="listItem" class="button is-info is-large">Post Listing</button>
         </form>
     </div>
 </template>
@@ -41,4 +47,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+textarea {
+    min-height: 100px;
+    min-width: 50%;
+}
+</style>
