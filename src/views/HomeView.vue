@@ -41,6 +41,7 @@ onMounted(() => {
 <template>
     <main class="container">
         <PostingCreate @add-post="addItemListing" />
+        <br><br>
         <ListOfPostings :posts="posts" />
     </main>
 </template>
