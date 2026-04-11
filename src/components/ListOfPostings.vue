@@ -9,8 +9,6 @@ export default {
 
 <template>
     <div>
-        <ItemListing v-for="(post, index) in posts"
-            :key="index"
-            :post="post" />
+        <ItemListing v-for="(post, index) in posts" :key="index" :post="post" />
     </div>
 </template>

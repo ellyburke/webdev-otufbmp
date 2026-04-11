@@ -9,10 +9,9 @@ defineProps({
 
 <template>
     <div class="post-box">
-        <h2 class="title">{{ post.name }}</h2>
+        <RouterLink :to="{ path: `/item/${post.id}`, state: { post: { ...post } } }" class="title">{{ post.name }}
+        </RouterLink>
         <p class="price">${{ post.price }}</p>
         <p class="description">{{ post.description }}</p>
-
-        <CommentSection :postId="post.id" />
     </div>
 </template>

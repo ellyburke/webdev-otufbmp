@@ -20,7 +20,7 @@ const submitComment = () => {
             <textarea v-model="commentText" class="textarea" placeholder="Comment here..."></textarea>
         </div>
         <div class="control mt-5">
-            <button @click="submitComment"class="button is-link">Submit</button>
+            <button @click="submitComment" class="button is-link">Submit</button>
         </div>
     </div>
 </template>

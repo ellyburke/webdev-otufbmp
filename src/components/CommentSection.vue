@@ -10,7 +10,7 @@ const props = defineProps({
 
 const comments = ref([]);
 
-const loadComments = async() => {
+const loadComments = async () => {
     const response = await fetch(`http://localhost:3000/items?id=${props.postId}`);
     const data = await response.json();
     comments.value = data.comments;
@@ -37,7 +37,7 @@ const handleNewComment = async (commentUser, commentText) => {
             text: commentText
         })
     });
-    if(newComment.ok) {
+    if (newComment.ok) {
         loadComments();
     }
 }
@@ -47,8 +47,8 @@ const handleNewComment = async (commentUser, commentText) => {
 <template>
     <div class="card">
         <p v-for="comment in comments" :key="comment.id">
-            {{comment.user}}: {{ comment.text }}
+            {{ comment.user }}: {{ comment.text }}
         </p>
     </div>
-    <CommentInput @new-comment="handleNewComment"/>
+    <CommentInput @new-comment="handleNewComment" />
 </template>

@@ -5,7 +5,7 @@
             <input v-model="title" placeholder="Name of Item" />
             <input v-model="price" type="number" placeholder="Price" />
             <textarea v-model="description" placeholder="Description for product..."></textarea>
-            
+
             <button @click="listItem">Post Listing</button>
         </form>
     </div>
@@ -26,7 +26,7 @@ export default {
             if (!this.title.trim()) {
                 return;
             }//checks if there is a name for the item
-            
+
             this.$emit("add-post", {
                 title: this.title,
                 price: this.price,
@@ -41,6 +41,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
