@@ -16,6 +16,12 @@ onMounted(() => {
     <div v-if="postData">
         <h1>{{ postData.name }}</h1>
         <p>{{ postData.description }}</p>
+
+        <img
+            v-if="postData.image_url"
+            :src="postData.image_url"
+            alt="Image of listing item."
+        />
     </div>
     <CommentSection :postId="postData.id" />
 </template>

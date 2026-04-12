@@ -12,7 +12,11 @@
             <h2 class="subtitle is-5">What do people need to know:</h2>
             <textarea class="input is-info" v-model="description" placeholder="Listing description..."></textarea>
             <br><br>
+            <h2 class="subtitle is-5">Upload an image of your item:</h2>
+            <input class="input is-info" type="file" accept="image/*" @change="handleImageUpload" />
+            <br><br>
             <button @click="listItem" class="button is-info is-large">Post Listing</button>
+            <br><br>
         </form>
     </div>
 </template>
@@ -23,11 +27,16 @@ export default {
         return {
             title: "",
             price: 0,
-            description: ""
-        }
+            description: "",
+            image: null
+        };
     },
 
     methods: {
+        handleImageUpload(event) {
+            this.image = event.target.files[0];//only take in first selected file
+        },
+
         listItem() {
             if (!this.title.trim()) {
                 return;
@@ -37,14 +46,16 @@ export default {
                 title: this.title,
                 price: this.price,
                 description: this.description,
-            })
+                image: this.image
+            });
 
-            this.title = ""
-            this.price = 0
-            this.description = ""
+            this.title = "";
+            this.price = 0;
+            this.description = "";
+            this.image = null;
         }
     }
-}
+};
 </script>
 
 <style scoped>
