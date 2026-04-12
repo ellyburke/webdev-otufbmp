@@ -4,6 +4,7 @@
       <div class="navbar-brand">
         <RouterLink to="/" class="navbar-item">OT Marketplace</RouterLink>
         <RouterLink to="/sell" class="navbar-item">Sell Here</RouterLink>
+        <RouterLink to="/map" class="navbar-item">Map</RouterLink>
       </div>
     </nav>
     <RouterView /> 
