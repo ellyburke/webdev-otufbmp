@@ -50,6 +50,15 @@ db.serialize(() => {
         FOREIGN KEY (item_id) REFERENCES items(id)
     )`);
 
+    //Ratings table
+    db.run(`CREATE TABLE IF NOT EXISTS ratings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        item_id INTEGER NOT NULL,
+        user TEXT NOT NULL,
+        rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+        FOREIGN KEY (item_id) REFERENCES items(id)
+    )`);
+
     //image table generation
     db.all("PRAGMA table_info(items)", [], (err, columns) => {
         if (err) {
@@ -72,6 +81,28 @@ app.get('/items', (req, res) => {
             res.json({ item, comments });
         });
     });
+});
+
+app.get('/ratings/:itemId', (req, res) => {
+    const { itemId } = req.params;
+
+    db.get(
+        `SELECT COUNT(*) AS rating_count, ROUND(AVG(rating), 1) AS average_rating
+         FROM ratings
+         WHERE item_id = ?`,
+        [itemId],
+        (err, row) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to load ratings' });
+            }
+
+            res.json({
+                item_id: Number(itemId),
+                rating_count: row?.rating_count || 0,
+                average_rating: row?.average_rating || 0
+            });
+        }
+    );
 });
 
 /*
@@ -122,6 +153,32 @@ app.post('/comments', (req, res) => {
             text 
         });
     });
+});
+
+app.post('/ratings', (req, res) => {
+    const { item_id, user, rating } = req.body;
+    const parsedRating = Number(rating);
+
+    if (!item_id || !user || parsedRating < 1 || parsedRating > 5) {
+        return res.status(400).json({ error: 'Valid item, user, and rating are required' });
+    }
+
+    db.run(
+        "INSERT INTO ratings (item_id, user, rating) VALUES (?, ?, ?)",
+        [item_id, user, parsedRating],
+        function(err) {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to save rating' });
+            }
+
+            res.json({
+                id: this.lastID,
+                item_id,
+                user,
+                rating: parsedRating
+            });
+        }
+    );
 });
 
 app.listen(port, () => {
