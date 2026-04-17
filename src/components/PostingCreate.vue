@@ -9,6 +9,25 @@
             <h2 class="subtitle is-5">What's the price:</h2>
             <input class="input is-info" v-model="price" type="number" placeholder="$0" />
             <br><br>
+            <h2 class="subtitle is-5">Category:</h2>
+            <div class="control">
+                <div class="select">
+                    <select v-model="category">
+                        <option disabled selected>Select a Category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Home & Garden">Home & Garden</option>
+                        <option value="Sports & Outdoors">Sports & Outdoors</option>
+                        <option value="Books & Media">Books & Media</option>
+                        <option value="Toys & Games">Toys & Games</option>
+                        <option value="Health & Beauty">Health & Beauty</option>
+                        <option value="Automotive">Automotive</option>
+                        <option value="Music & Instruments">Music & Instruments</option>
+                        <option value="Rental Properties">Rental Properties</option>
+                    </select>
+                </div>
+            </div>
+            <br><br>
             <h2 class="subtitle is-5">What do people need to know:</h2>
             <textarea class="input is-info" v-model="description" placeholder="Listing description..."></textarea>
             <br><br>
@@ -68,6 +87,7 @@ export default {
             title: "",
             price: 0,
             description: "",
+            category: "",
             country: "",
             image: null
         };
@@ -87,6 +107,7 @@ export default {
                 title: this.title,
                 price: this.price,
                 description: this.description,
+                category: this.category,
                 country: this.country,
                 image: this.image
             });
@@ -94,6 +115,7 @@ export default {
             this.title = "";
             this.price = 0;
             this.description = "";
+            this.category = "";
             this.country = "";
             this.image = null;
         }

@@ -5,12 +5,6 @@ import CommentSection from './components/CommentSection.vue'
 import Sidebar from './components/Sidebar.vue'
 import HomeView from './views/HomeView.vue'
 
-// To filer for favourites
-let showFavourites = ref(false)
-const getFavourites = () => {
-  console.log('Getting favourite posts...')
-  showFavourites.value = !showFavourites.value
-}
 </script>
 
 <template>
@@ -51,13 +45,12 @@ const getFavourites = () => {
     </nav>
 
     <!-- Div to make the sidebar and main content sit side by side -->
-    <div class="is-flex">
-      <Sidebar />
+    
       <main style="flex: 1;">
         <RouterView />
         <!-- <CommentSection /> -->
       </main>
-    </div>
+  
   </div>
 </template>
 

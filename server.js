@@ -41,6 +41,7 @@ db.serialize(() => {
         name TEXT NOT NULL,
         price REAL NOT NULL,
         description TEXT NOT NULL,
+        category TEXT,
         image_url TEXT,
         created_time TEXT NOT NULL
     )`)

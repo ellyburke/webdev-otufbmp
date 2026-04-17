@@ -1,6 +1,6 @@
 <script setup>
 import PostingCreate from '../components/PostingCreate.vue';
-import { ref, onMounted } from "vue"
+import { ref } from "vue"
 
 const posts = ref([])
 
@@ -10,8 +10,9 @@ async function addItemListing(post) {
         formData.append("name", post.title);
         formData.append("price", post.price);
         formData.append("description", post.description);
+        formData.append("category", post.category);
         formData.append("country", post.country);
-        
+
         if (post.image) {
             formData.append("image", post.image);
         }

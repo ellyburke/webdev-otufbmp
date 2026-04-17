@@ -2,20 +2,23 @@
 import ItemListing from './ItemListing.vue'
 
 export default {
-  components: { ItemListing },
+  components: { ItemListing},
   props: ['posts'],
 }
 </script>
 
 <template>
-  <div class="post-grid">
+  <div class="is-flex layout is-fullwidth">
+    <div class="post-grid">
     <ItemListing
       class="card post-card"
       v-for="(post, index) in posts"
       :key="index"
       :post="post"
     />
+    </div>
   </div>
+  
 </template>
 
 <style scoped>
@@ -28,5 +31,9 @@ export default {
 .post-card {
   aspect-ratio: 1 / 1;
   overflow: hidden;
+}
+
+.sidebar{
+  margin: 0;
 }
 </style>
