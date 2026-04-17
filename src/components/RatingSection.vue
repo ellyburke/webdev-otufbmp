@@ -94,7 +94,7 @@ watch(() => props.itemId, loadRatings)
     </div>
 
     <div v-if="!compact" class="rating-form">
-      <p class="rating-label">Give us a rating</p>
+      <p class="rating-label">Rate this item yourself:</p>
 
       <div class="star-picker">
         <button
@@ -120,20 +120,27 @@ watch(() => props.itemId, loadRatings)
 
 <style scoped>
 .rating-box {
-  margin: 12px 0;
+  margin: 8px 0 4px;
 }
 
 .rating-summary {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(47, 99, 255, 0.08);
+  border: 1px solid rgba(47, 99, 255, 0.12);
+  width: fit-content;
+  margin: 0 auto;
 }
 
 .rating-label {
   margin-bottom: 10px;
   font-weight: 600;
-  color: #444;
+  color: #575d69;
 }
 
 .summary-star,
@@ -144,7 +151,7 @@ watch(() => props.itemId, loadRatings)
 
 .summary-star.filled,
 .star-button.active {
-  color: #ffb703;
+  color: #f2ff03;
 }
 
 .star-picker {
@@ -161,16 +168,12 @@ watch(() => props.itemId, loadRatings)
 }
 
 .rating-form {
-  margin-top: 12px;
-}
-
-.rating-form .input {
-  max-width: 260px;
-  margin-bottom: 10px;
+  margin-top: 14px;
 }
 
 .rating-text,
 .rating-count {
-  color: #444;
+  color: #24324f;
+  font-weight: 600;
 }
 </style>

@@ -1003,9 +1003,16 @@ e,0,Brazil
 Angry Bird,12,Canada
 angry bird,12,Canada
 angry bird - NEW toy,12,Canada
+<<<<<<< HEAD
 test,34,Brazil
 Testing,22,Argentina
 cherry,33,South Korea
 fruit,22,India
 blah,88,Japan
 bla,88,Japan
+=======
+bread,5,Canada
+bread,5,Brazil
+New Angry Birds Toy,12.5,Spain
+something,10,Canada
+>>>>>>> 54397da61da61b91de05fa6094831f1eb94044dc

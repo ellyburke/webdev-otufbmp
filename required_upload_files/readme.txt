@@ -4,6 +4,24 @@
 
 Our web-application uses the Vue framework to develop an online marketplace application, that can be locally hosted on your own machine.
 
+# To Run the Application:
+
+Firstly, in your terminal ensure you are in the root directory folder, "webdev-otufbmp".
+
+Afterwards, run the following commands to install and start using the web application fully:
+
+```sh
+npm install
+```
+
+```sh
+node server.js
+```
+
+```sh
+npm run build
+```
+
 # Requirement Fulfillments and Key Web Components:
 
 - SVGs are used throughout the application to add icons for buttons, corporate logos, and additional aesthetic stylings.
@@ -51,24 +69,6 @@ Additionally, item listings can be rated, which is not common in marketplace app
 We added this feature because if a user has posted an item, the user may be selling multiple of that item. In that case, users should be able to leave a rating of what they thought of the item, so other users can make a more informed decision before purchasing.
 
 Furthermore, for added user interaction there is also a comments section for each item listing.
-
-# To Run the Application:
-
-Firstly, in your terminal ensure you are in the root directory folder, "webdev-otufbmp".
-
-Afterwards, run the following commands to install and start using the web application fully:
-
-```sh
-npm install
-```
-
-```sh
-node server.js
-```
-
-```sh
-npm run build
-```
 
 # Project Setup & Specifications
 ## Recommended IDE Setup

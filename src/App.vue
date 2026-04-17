@@ -1,10 +1,16 @@
 <script setup>
-import { ref } from 'vue'
-import CommentInput from './components/CommentInput.vue'
-import CommentSection from './components/CommentSection.vue'
+import { computed } from 'vue'
 import Sidebar from './components/Sidebar.vue'
-import HomeView from './views/HomeView.vue'
 
+const currentUser = computed(() => {
+  const raw = localStorage.getItem('currentUser')
+  return raw ? JSON.parse(raw) : null
+})
+
+function logout() {
+  localStorage.removeItem('currentUser')
+  window.location.href = '/'
+}
 </script>
 
 <template>
@@ -12,12 +18,14 @@ import HomeView from './views/HomeView.vue'
     <nav class="navbar is-dark is-flex is-justify-content-space-between">
       <div class="navbar-brand">
         <RouterLink to="/" class="navbar-item">OT Marketplace</RouterLink>
+
         <RouterLink to="/sell" class="navbar-item">
           Sell Here
           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10V6a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z"/>
           </svg>
         </RouterLink>
+
         <RouterLink to="/map" class="navbar-item">
           Map
           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -28,15 +36,23 @@ import HomeView from './views/HomeView.vue'
       </div>
 
       <section>
-        <!-- Placeholder for login/logout buttons -->
         <div class="navbar-end">
           <div class="navbar-item">
-            <div class="buttons">
-              <button class="button is-primary">
-                Account
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h3m-3 3h3m-3 3h3m-6 1c-.306-.613-.933-1-1.618-1H7.618c-.685 0-1.312.387-1.618 1M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm7 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
-                </svg>
+            <div class="buttons" v-if="!currentUser">
+              <RouterLink to="/register" class="button is-primary">
+                Sign up
+              </RouterLink>
+              <RouterLink to="/login" class="button is-light">
+                Log in
+              </RouterLink>
+            </div>
+
+            <div class="buttons" v-else>
+              <span class="button is-static">
+                Hi, {{ currentUser.username }}
+              </span>
+              <button class="button is-primary" @click="logout">
+                Logout
               </button>
             </div>
           </div>
@@ -47,11 +63,26 @@ import HomeView from './views/HomeView.vue'
     <!-- Div to make the sidebar and main content sit side by side -->
     
       <main style="flex: 1;">
+    <div class="page-layout">
+      <Sidebar />
+      <main class="page-content">
         <RouterView />
-        <!-- <CommentSection /> -->
       </main>
   
   </div>
 </template>
 
 <style></style>
+
+<style scoped>
+.page-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px;
+}
+
+.page-content {
+  flex: 1;
+}
+</style>

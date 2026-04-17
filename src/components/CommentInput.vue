@@ -1,26 +1,69 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 
-const commentUser = ref('')
+const props = defineProps<{
+  itemId: number
+}>()
+
+const emit = defineEmits(['commentAdded'])
+
 const commentText = ref('')
-const emit = defineEmits(['new-comment'])
+const errorMessage = ref('')
 
-const submitComment = () => {
-    if (!commentUser.value || !commentText.value) return;
-    emit('new-comment', commentUser.value, commentText.value);
-    commentText.value = '';
+async function submitComment() {
+  errorMessage.value = ''
+
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
+
+  if (!currentUser) {
+    errorMessage.value = 'Please log in to comment.'
+    return
+  }
+
+  if (!commentText.value.trim()) {
+    errorMessage.value = 'Comment cannot be empty.'
+    return
+  }
+
+  try {
+    const response = await fetch('http://localhost:3000/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        item_id: props.itemId,
+        user: currentUser.username,
+        text: commentText.value.trim(),
+      }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      errorMessage.value = data.error || 'Failed to post comment'
+      return
+    }
+
+    commentText.value = ''
+    emit('commentAdded', data)
+  } catch (error) {
+    console.error('Error posting comment:', error)
+    errorMessage.value = 'Failed to post comment'
+  }
 }
-
 </script>
 
 <template>
-    <div class="field">
-        <div class="control">
-            <input v-model="commentUser" class="input" type="text" placeholder="Your Name"></input>
-            <textarea v-model="commentText" class="textarea" placeholder="Comment here..."></textarea>
-        </div>
-        <div class="control mt-5">
-            <button @click="submitComment" class="button is-link">Submit</button>
-        </div>
-    </div>
+  <div>
+    <p v-if="errorMessage" class="has-text-danger mb-2">{{ errorMessage }}</p>
+
+    <textarea
+      v-model="commentText"
+      class="textarea"
+      placeholder="Write a comment..."
+    ></textarea>
+
+    <button class="button is-primary mt-2" @click="submitComment">
+      Post Comment
+    </button>
+  </div>
 </template>

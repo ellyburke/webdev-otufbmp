@@ -17,9 +17,24 @@ const posts = computed(() => {
 
 function getFavourites() {
   showFavourites.value = !showFavourites.value
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
 
   if (showFavourites.value) {
     // postsService.getFavouritePosts(1).then(...)
+    if (!currentUser) {
+      alert('Please log in to view favourites.')
+      showFavourites.value = false
+      return
+    }
+
+    postsService
+      .getFavouritePosts(currentUser.id)
+      .then((data) => {
+        posts.value = data
+      })
+      .catch((error) => {
+        console.error('Error loading favourite posts:', error)
+      })
   } else {
     postsService
       .getAllPosts()
@@ -54,14 +69,19 @@ onMounted(() => {
       @toggle-favourites="getFavourites"
       @filter-category="filterByCategory"
     />
-    <main class="container">
+    <main class="home-content">
       <ListOfPostings :posts="posts" />
     </main>
   </div>
-</template>
+</template> 
 
-<style>
-.container {
-  padding: 2rem;
+
+<style scoped>
+.home-content {
+  width: 100%;
+}
+
+.button {
+  margin-bottom: 20px;
 }
 </style>
