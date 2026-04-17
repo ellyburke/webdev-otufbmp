@@ -5,30 +5,41 @@ import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 if (!fs.existsSync('uploads')) {
-  fs.mkdirSync('uploads')
+  fs.mkdirSync('uploads');
 }
-app.use('/uploads', express.static('uploads'))
 
-const db = new sqlite3.Database('./items.db')
+app.use('/uploads', express.static('uploads'));
+
+/*
+  Used to apply database creation and SQL usage for user data management:
+  https://www.npmjs.com/package/sqlite3
+*/
+
+const db = new sqlite3.Database('./items.db');
+
+/*
+  Used to apply image uploading for selling items:
+  https://www.npmjs.com/package/multer
+*/
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/')
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
     const filenameCreated = Date.now() + path.extname(file.originalname)
-    cb(null, filenameCreated)
+    cb(null, filenameCreated);
   },
 })
 
-const upload = multer({ storage })
+const upload = multer({ storage });
 
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS items (
@@ -41,7 +52,7 @@ db.serialize(() => {
     account_id INTEGER,
     created_time TEXT NOT NULL,
     FOREIGN KEY (account_id) REFERENCES accounts(id)
-  )`)
+  )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS comments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,14 +60,14 @@ db.serialize(() => {
     user TEXT NOT NULL,
     text TEXT NOT NULL,
     FOREIGN KEY (item_id) REFERENCES items(id)
-  )`)
+  )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS accounts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
-  )`)
+  )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS favourites (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -65,7 +76,7 @@ db.serialize(() => {
     UNIQUE(account_id, item_id),
     FOREIGN KEY (account_id) REFERENCES accounts(id),
     FOREIGN KEY (item_id) REFERENCES items(id)
-  )`)
+  )`);
 
   db.run(`CREATE TABLE IF NOT EXISTS ratings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -73,28 +84,28 @@ db.serialize(() => {
     user TEXT NOT NULL,
     rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
     FOREIGN KEY (item_id) REFERENCES items(id)
-  )`)
+  )`);
 
   db.all('PRAGMA table_info(items)', [], (err, columns) => {
-    if (err) return console.error(err)
+    if (err) return console.error(err);
 
-    const hasImage = columns.some((col) => col.name === 'image_url')
-    const hasCountry = columns.some((col) => col.name === 'country')
-    const hasAccountId = columns.some((col) => col.name === 'account_id')
-    const hasCreatedTime = columns.some((col) => col.name === 'created_time')
+    const hasImage = columns.some((col) => col.name === 'image_url');
+    const hasCountry = columns.some((col) => col.name === 'country');
+    const hasAccountId = columns.some((col) => col.name === 'account_id');
+    const hasCreatedTime = columns.some((col) => col.name === 'created_time');
 
-    if (!hasImage) db.run('ALTER TABLE items ADD COLUMN image_url TEXT')
-    if (!hasCountry) db.run('ALTER TABLE items ADD COLUMN country TEXT')
-    if (!hasAccountId) db.run('ALTER TABLE items ADD COLUMN account_id INTEGER')
+    if (!hasImage) db.run('ALTER TABLE items ADD COLUMN image_url TEXT');
+    if (!hasCountry) db.run('ALTER TABLE items ADD COLUMN country TEXT');
+    if (!hasAccountId) db.run('ALTER TABLE items ADD COLUMN account_id INTEGER');
     if (!hasCreatedTime) {
-      db.run("ALTER TABLE items ADD COLUMN created_time TEXT")
-      db.run("UPDATE items SET created_time = datetime('now') WHERE created_time IS NULL")
+      db.run("ALTER TABLE items ADD COLUMN created_time TEXT");
+      db.run("UPDATE items SET created_time = datetime('now') WHERE created_time IS NULL");
     }
   })
 })
 
 app.get('/items', (req, res) => {
-  const itemId = req.query.id
+  const itemId = req.query.id;
 
   db.get(
     `SELECT items.*, accounts.username AS seller_username
@@ -112,7 +123,7 @@ app.get('/items', (req, res) => {
       })
     },
   )
-})
+});
 
 app.get('/all-items', (req, res) => {
   db.all(
@@ -127,10 +138,10 @@ app.get('/all-items', (req, res) => {
       res.json(rows)
     },
   )
-})
+});
 
 app.post('/register', (req, res) => {
-  const { username, email, password } = req.body
+  const { username, email, password } = req.body;
 
   if (!username || !email || !password) {
     return res.status(400).json({ error: 'username, email, and password are required' })
@@ -141,7 +152,7 @@ app.post('/register', (req, res) => {
     [username, email, password],
     function (err) {
       if (err) {
-        return res.status(400).json({ error: 'Username or email already exists' })
+        return res.status(400).json({ error: 'Username or email already exists' });
       }
 
       res.json({
@@ -151,10 +162,10 @@ app.post('/register', (req, res) => {
       })
     },
   )
-})
+});
 
 app.post('/login', (req, res) => {
-  const { email, password } = req.body
+  const { email, password } = req.body;
 
   db.get(
     'SELECT id, username, email, password FROM accounts WHERE email = ?',
@@ -172,7 +183,7 @@ app.post('/login', (req, res) => {
       })
     },
   )
-})
+});
 
 app.get('/me/:id', (req, res) => {
   db.get(
@@ -184,7 +195,7 @@ app.get('/me/:id', (req, res) => {
       res.json(user)
     },
   )
-})
+});
 
 app.get('/favourites/:accountId', (req, res) => {
   db.all(
@@ -201,13 +212,13 @@ app.get('/favourites/:accountId', (req, res) => {
       res.json(rows)
     },
   )
-})
+});
 
 app.post('/favourites', (req, res) => {
   const { account_id, item_id } = req.body
 
   if (!account_id || !item_id) {
-    return res.status(400).json({ error: 'account_id and item_id are required' })
+    return res.status(400).json({ error: 'account_id and item_id are required' });
   }
 
   db.run(
@@ -218,10 +229,10 @@ app.post('/favourites', (req, res) => {
       res.json({ success: true })
     },
   )
-})
+});
 
 app.delete('/favourites/:accountId/:itemId', (req, res) => {
-  const { accountId, itemId } = req.params
+  const { accountId, itemId } = req.params;
 
   db.run(
     'DELETE FROM favourites WHERE account_id = ? AND item_id = ?',
@@ -231,22 +242,26 @@ app.delete('/favourites/:accountId/:itemId', (req, res) => {
       res.json({ success: true })
     },
   )
-})
+});
 
 app.post('/items', upload.single('image'), (req, res) => {
-  const { name, price, description, country, account_id } = req.body
-  let image_url = null
+  const { name, price, description, country, account_id } = req.body;
+  let image_url = null;
 
   if (req.file) {
-    image_url = `/uploads/${req.file.filename}`
+    image_url = `/uploads/${req.file.filename}`;
   }
 
   const csvRow = `${name},${price},${country}\n`
   fs.appendFile('data/listings.csv', csvRow, (err) => {
-    if (err) console.log('Failed to write to listings csv', err)
+    if (err) console.log('Failed to write to listings csv', err);
   })
 
-  const created_time = new Date().toISOString()
+  /*
+    Used for understandning what toISOString returns:
+    https://www.w3schools.com/jsref/jsref_toisostring.asp
+  */
+  const created_time = new Date().toISOString();
 
   db.run(
     'INSERT INTO items (name, price, description, image_url, country, account_id, created_time) VALUES (?, ?, ?, ?, ?, ?, ?)',
@@ -266,10 +281,10 @@ app.post('/items', upload.single('image'), (req, res) => {
       })
     },
   )
-})
+});
 
 app.post('/comments', (req, res) => {
-  const { item_id, user, text } = req.body
+  const { item_id, user, text } = req.body;
 
   db.run(
     'INSERT INTO comments (item_id, user, text) VALUES (?, ?, ?)',
@@ -285,10 +300,10 @@ app.post('/comments', (req, res) => {
       })
     },
   )
-})
+});
 
 app.get('/ratings/:itemId', (req, res) => {
-  const { itemId } = req.params
+  const { itemId } = req.params;
 
   db.get(
     `SELECT COUNT(*) AS rating_count, ROUND(AVG(rating), 1) AS average_rating
@@ -297,7 +312,7 @@ app.get('/ratings/:itemId', (req, res) => {
     [itemId],
     (err, row) => {
       if (err) {
-        return res.status(500).json({ error: 'Failed to load ratings' })
+        return res.status(500).json({ error: 'Failed to load ratings' });
       }
 
       res.json({
@@ -310,18 +325,18 @@ app.get('/ratings/:itemId', (req, res) => {
 })
 
 app.post('/ratings', (req, res) => {
-  const { item_id, user, rating } = req.body
-  const parsedRating = Number(rating)
+  const { item_id, user, rating } = req.body;
+  const parsedRating = Number(rating);
 
   if (!item_id || !user || parsedRating < 1 || parsedRating > 5) {
-    return res.status(400).json({ error: 'Valid item, user, and rating are required' })
+    return res.status(400).json({ error: 'Valid item, user, and rating are required' });
   }
 
   db.run(
     'INSERT INTO ratings (item_id, user, rating) VALUES (?, ?, ?)',
     [item_id, user, parsedRating],
     function (err) {
-      if (err) return res.status(500).json({ error: 'Failed to save rating' })
+      if (err) return res.status(500).json({ error: 'Failed to save rating' });
 
       res.json({
         id: this.lastID,
@@ -331,25 +346,25 @@ app.post('/ratings', (req, res) => {
       })
     },
   )
-})
+});
 
 app.delete('/items/:itemId/:accountId', (req, res) => {
-  const { itemId, accountId } = req.params
+  const { itemId, accountId } = req.params;
 
   db.get(
     'SELECT * FROM items WHERE id = ?',
     [itemId],
     (err, item) => {
       if (err) {
-        return res.status(500).json({ error: 'Failed to load item' })
+        return res.status(500).json({ error: 'Failed to load item' });
       }
 
       if (!item) {
-        return res.status(404).json({ error: 'Item not found' })
+        return res.status(404).json({ error: 'Item not found' });
       }
 
       if (String(item.account_id) !== String(accountId)) {
-        return res.status(403).json({ error: 'You can only delete your own posts' })
+        return res.status(403).json({ error: 'You can only delete your own posts' });
       }
 
       db.run(
@@ -357,7 +372,7 @@ app.delete('/items/:itemId/:accountId', (req, res) => {
         [itemId],
         function (deleteErr) {
           if (deleteErr) {
-            return res.status(500).json({ error: 'Failed to delete item' })
+            return res.status(500).json({ error: 'Failed to delete item' });
           }
 
           res.json({ success: true })
@@ -365,8 +380,8 @@ app.delete('/items/:itemId/:accountId', (req, res) => {
       )
     },
   )
-})
+});
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`)
+  console.log(`Server running at http://localhost:${port}`);
 })

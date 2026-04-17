@@ -16,6 +16,11 @@ body {
   min-height: 80vh;
 }
 
+/*
+  Used to figure out how to apply moving gradient with keyframes:
+  https://stackoverflow.com/questions/23441060/how-to-animate-gradients-using-css
+*/
+
 @keyframes gradientSlightlyMove {
   0% {
     background-position: 0% 50%;
