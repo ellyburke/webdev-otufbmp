@@ -119,6 +119,7 @@ img {
   width: 100%;
   max-width: 500px;
   height: auto;
+  border-radius: 15px;
 }
 
 p {
