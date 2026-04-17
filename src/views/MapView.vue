@@ -7,7 +7,7 @@ import Map from '../components/Map.vue'
 <template>
   <br>
   <h1 class="title">Welcome to a World of Possibilities!</h1>
-  <div>
+  <div class="map-card">
     <Map></Map>
   </div>
   <br>
@@ -21,6 +21,14 @@ import Map from '../components/Map.vue'
 </template>
 
 <style scoped>
+.map-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(22, 157, 220, 0.751);
+  border: 1px solid #dfe6f3;
+}
+
 p {
   font-size: 20px;
 }
