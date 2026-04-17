@@ -1,8 +1,9 @@
 <script setup>
 import CommentSection from './CommentSection.vue'
+import RatingSection from './RatingSection.vue';
 
 defineProps({
-  post: Object,
+    post: Object
 })
 </script>
 
@@ -17,6 +18,7 @@ defineProps({
     </div>
 
     <p class="price">${{ post.price }}</p>
+    <RatingSection :itemId="post.id" compact />
     <p class="description">{{ post.description }}</p>
   </div>
 </template>
