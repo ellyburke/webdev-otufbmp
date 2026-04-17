@@ -68,7 +68,7 @@ async function deletePost() {
     <br>
 
     <h1 class="title">{{ postData.name }}</h1>
-    <h1 class="title">Price: ${{ postData.price }}</h1>
+    <h1 class="title">Price: ${{ Number(postData.price).toFixed(2) }}</h1>
 
     <br>
 
