@@ -73,7 +73,7 @@ onMounted(() => {
       <img :src="`http://localhost:3000${post.image_url}`" alt="Image from Post" />
     </div>
 
-    <p class="price">${{ post.price }}</p>
+    <p class="price">${{ Number(post.price).toFixed(2) }}</p>
     <RatingSection :itemId="post.id" compact />
     <p class="description">{{ post.description }}</p>
 
