@@ -1,6 +1,8 @@
 <img src="./src/assets/website_logo_for_README.svg" width="400px"/>
 
-# quicksale - The gloabal fast-paced marketplace!
+# quicksale - The global fast-paced marketplace!
+
+## Github repo: https://github.com/ellyburke/webdev-otufbmp
 
 Our web-application uses the Vue framework to develop an online marketplace application, that can be locally hosted on your own machine.
 
@@ -54,7 +56,9 @@ Furthermore, for added user interaction there is also a comments section for eac
 
 # To Run the Application:
 
-Firstly, in your terminal ensure you are in the root directory folder, "webdev-otufbmp".
+Firstly, download the code repo from the Github link: https://github.com/ellyburke/webdev-otufbmp
+
+Secondly, in your terminal ensure you are in the root directory folder, "webdev-otufbmp".
 
 Afterwards, run the following commands to install and start using the web application fully:
 

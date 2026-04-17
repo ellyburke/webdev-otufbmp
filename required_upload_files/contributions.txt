@@ -1,29 +1,29 @@
 Jeremy
 
--
--
--
+- Image uploading to backend and asynchronously updating interface with item listings.
+- Dynamic styling and element formatting using JavaScript, Bulma / regular CSS, e.g. gradient background.
+- 7 Day listing expiration feature.
 
 Samir
 
--
--
--
+- Rating system for marketplace listings.
+- General style of the UI.
+- Improved the layout and visual consistency of the marketplace.
 
 Ellycea
 
--
--
--
+- Favourites feature.
+- Category filters / jQuery.
+- Dynamic DOM loading.
 
 Demi
 
--
--
--
+- Account support and linking to other features, e.g. each account's favourites.
+- Connected front end to account pages with routing.
+- Added UI elements for navigation account management.
 
 Matthew
 
--
--
--
+- Comments for each listing.
+- Set up database / server.
+- Made d3 map that updates with listings.
