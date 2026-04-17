@@ -1,4 +1,5 @@
 <img src="./src/assets/website_logo_for_README.svg" width="400px"/>
+
 # quicksale - The gloabal fast-paced marketplace!
 
 Our web-application uses the Vue framework to develop an online marketplace application, that can be locally hosted on your own machine.
