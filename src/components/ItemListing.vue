@@ -3,9 +3,21 @@ import { ref, onMounted } from 'vue'
 import RatingSection from './RatingSection.vue'
 import { PostsService } from '../services/PostsService'
 
-const props = defineProps({
-  post: Object,
-})
+// Post object interface for type safety
+interface Post {
+  id: number
+  name: string
+  price: number
+  description: string
+  category?: string
+  image_url?: string
+  country?: string
+  account_id?: number
+  seller_username?: string
+  created_time?: string
+}
+
+const props = defineProps<{ post: Post }>()
 
 const postsService = new PostsService()
 const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
