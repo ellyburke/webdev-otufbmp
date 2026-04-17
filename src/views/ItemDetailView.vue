@@ -64,57 +64,78 @@ async function deletePost() {
 </script>
 
 <template>
-  <div v-if="postData">
-    <br>
+  <div v-if="postData" class="detail-page">
+    <div class="detail-card">
+      <br>
 
-    <h1 class="title">{{ postData.name }}</h1>
-    <h1 class="title">Price: ${{ Number(postData.price).toFixed(2) }}</h1>
+      <h1 class="title">{{ postData.name }}</h1>
+      <h1 class="title">Price: ${{ Number(postData.price).toFixed(2) }}</h1>
 
-    <br>
+      <br>
 
-    <img
-      v-if="postData.image_url"
-      :src="`http://localhost:3000${postData.image_url}`"
-      alt="Image of listing item."
-    />
+      <img
+        v-if="postData.image_url"
+        :src="`http://localhost:3000${postData.image_url}`"
+        alt="Image of listing item."
+      />
 
-    <br>
+      <br>
 
-    <div class="buttons mt-4">
-      <button
-        v-if="currentUser"
-        class="button is-warning"
-        @click="toggleFavourite"
-      >
-        {{ isFavourited ? 'Unfavourite' : 'Favourite this Listing' }}
-      </button>
+      <div class="buttons mt-4">
+        <button
+          v-if="currentUser"
+          class="button is-warning"
+          @click="toggleFavourite"
+        >
+          {{ isFavourited ? 'Unfavourite' : 'Favourite this Listing' }}
+        </button>
 
-      <button
-        v-if="currentUser && currentUser.id === postData.account_id"
-        class="button is-danger"
-        @click="deletePost"
-      >
-        Delete
-      </button>
+        <button
+          v-if="currentUser && currentUser.id === postData.account_id"
+          class="button is-danger"
+          @click="deletePost"
+        >
+          Delete
+        </button>
+      </div>
+
+      <h2 class="title">Listing Description:</h2>
+      <p>{{ postData.description }}</p>
+      <br>
     </div>
 
-    <h2 class="title">Listing Description:</h2>
-    <p>{{ postData.description }}</p>
     <br>
 
-    <h1 class="title">Comments:</h1>
-    <CommentSection :postId="postData?.id" />
+    <div class="detail-card">
+      <h1 class="title">Comments:</h1>
+      <CommentSection :postId="postData?.id" />
+      <br>
+    </div>
+
     <br>
 
-    <h2 class="subtitle">Current Item Rating:</h2>
-    <RatingSection :itemId="postData.id" />
-    <br><br>
-
+    <div class="detail-card">
+      <h2 class="subtitle">Current Item Rating:</h2>
+      <RatingSection :itemId="postData.id" />
+      <br><br>
+    </div>
   </div>
   <br>
 </template>
 
 <style scoped>
+.detail-page {
+  padding: 24px;
+}
+
+.detail-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border: 1px solid #dfe6f3;
+}
+
 img {
   width: 100%;
   max-width: 500px;
@@ -124,5 +145,6 @@ img {
 
 p {
   font-size: 20px;
+  line-height: 1.6;
 }
 </style>

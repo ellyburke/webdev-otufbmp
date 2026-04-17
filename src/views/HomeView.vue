@@ -53,7 +53,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="container">
+  <main class="home-content">
     <button class="button is-primary" @click="getFavourites">
       <span class="mr-2">{{ showFavourites ? 'Hide Favourites' : 'Show Favourites' }}</span>
       <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -63,3 +63,13 @@ onMounted(() => {
     <ListOfPostings :posts="posts" />
   </main>
 </template>
+
+<style scoped>
+.home-content {
+  width: 100%;
+}
+
+.button {
+  margin-bottom: 20px;
+}
+</style>

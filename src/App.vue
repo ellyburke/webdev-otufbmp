@@ -60,9 +60,9 @@ function logout() {
       </section>
     </nav>
 
-    <div class="is-flex">
+    <div class="page-layout">
       <Sidebar />
-      <main style="flex: 1;">
+      <main class="page-content">
         <RouterView />
       </main>
     </div>
@@ -70,3 +70,16 @@ function logout() {
 </template>
 
 <style></style>
+
+<style scoped>
+.page-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 24px;
+}
+
+.page-content {
+  flex: 1;
+}
+</style>

@@ -94,3 +94,62 @@ onMounted(() => {
     </button>
   </div>
 </template>
+
+<style scoped>
+.post-box {
+  height: 100%;
+  padding: 18px;
+  border-radius: 18px;
+  background-color: white !important;
+  opacity: 1 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  border: 1px solid #dfe6f3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  display: block;
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-bottom: 4px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1f2a44;
+  text-decoration: none;
+}
+
+.title:hover {
+  color: #2f63ff;
+}
+
+.image-box {
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #eef3ff;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.price {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1947d1;
+  margin: 0;
+}
+
+.description {
+  margin: 0;
+  color: #3f4b66;
+  line-height: 1.45;
+}
+</style>
