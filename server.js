@@ -132,13 +132,20 @@ app.get('/ratings/:itemId', (req, res) => {
 });
 
 app.post('/items', upload.single('image'), (req, res) => {
-  const { name, price, description } = req.body
+  const { name, price, description, country } = req.body
   let image_url = null
 
   if (req.file) {
     image_url = `/uploads/${req.file.filename}`
   }
 
+  const csvRow = `${name},${price},${country}\n`;
+
+fs.appendFile('data/listings.csv', csvRow, (err) => {
+    if (err) {
+        console.log("Failed to write to listings csv", err);
+    }
+});
   db.run(
     'INSERT INTO items (name, price, description, image_url) VALUES (?, ?, ?, ?)',
     [name, price, description, image_url],
