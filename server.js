@@ -47,6 +47,7 @@ db.serialize(() => {
     name TEXT NOT NULL,
     price REAL NOT NULL,
     description TEXT NOT NULL,
+    category TEXT,
     image_url TEXT,
     country TEXT,
     account_id INTEGER,
@@ -245,7 +246,7 @@ app.delete('/favourites/:accountId/:itemId', (req, res) => {
 })
 
 app.post('/items', upload.single('image'), (req, res) => {
-  const { name, price, description, country, account_id } = req.body
+  const { name, price, description, category, country, account_id } = req.body
   let image_url = null
 
   if (req.file) {
@@ -265,8 +266,8 @@ app.post('/items', upload.single('image'), (req, res) => {
   const created_time = new Date().toISOString()
 
   db.run(
-    'INSERT INTO items (name, price, description, image_url, country, account_id, created_time) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [name, price, description, image_url, country, account_id || null, created_time],
+    'INSERT INTO items (name, price, description, category, image_url, country, account_id, created_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [name, price, description, category, image_url, country, account_id || null, created_time],
     function (err) {
       if (err) return res.status(500).json({ error: 'Failed to create item' })
 
@@ -275,6 +276,7 @@ app.post('/items', upload.single('image'), (req, res) => {
         name,
         price,
         description,
+        category,
         image_url,
         country,
         account_id,

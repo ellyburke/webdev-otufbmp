@@ -5,45 +5,39 @@ import { PostsService } from '../services/PostsService.ts'
 import Sidebar from '../components/Sidebar.vue'
 
 const allPosts = ref([])
+const favouritePosts = ref([])
 const postsService = new PostsService()
-let showFavourites = ref(false)
+const showFavourites = ref(false)
 const selectedCategory = ref(null)
 
-// Filter posts by selected category (or show all if none selected)
 const posts = computed(() => {
-  if (!selectedCategory.value) return allPosts.value
-  return allPosts.value.filter(post => post.category === selectedCategory.value)
+  const source = showFavourites.value ? favouritePosts.value : allPosts.value
+  if (!selectedCategory.value) return source
+  return source.filter(post => post.category === selectedCategory.value)
 })
 
 function getFavourites() {
-  showFavourites.value = !showFavourites.value
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
 
-  if (showFavourites.value) {
-    // postsService.getFavouritePosts(1).then(...)
+  if (!showFavourites.value) {
+    // About to show favourites — fetch them first, then flip the toggle
     if (!currentUser) {
       alert('Please log in to view favourites.')
-      showFavourites.value = false
       return
     }
 
     postsService
       .getFavouritePosts(currentUser.id)
       .then((data) => {
-        posts.value = data
+        favouritePosts.value = data
+        showFavourites.value = true
       })
       .catch((error) => {
         console.error('Error loading favourite posts:', error)
       })
   } else {
-    postsService
-      .getAllPosts()
-      .then((data) => {
-        allPosts.value = data
-      })
-      .catch((error) => {
-        console.error('Error loading posts:', error)
-      })
+    // Hide favourites — go back to all posts
+    showFavourites.value = false
   }
 }
 
@@ -73,12 +67,12 @@ onMounted(() => {
       <ListOfPostings :posts="posts" />
     </main>
   </div>
-</template> 
-
+</template>
 
 <style scoped>
 .home-content {
   width: 100%;
+  padding: 2rem;
 }
 
 .button {

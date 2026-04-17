@@ -60,15 +60,11 @@ function logout() {
       </section>
     </nav>
 
-    <!-- Div to make the sidebar and main content sit side by side -->
     
-      <main style="flex: 1;">
-    <div class="page-layout">
-      <Sidebar />
-      <main class="page-content">
-        <RouterView />
-      </main>
-  
+   <main class="page-content">
+      <RouterView />
+    </main>
+    
   </div>
 </template>
 
