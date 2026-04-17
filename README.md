@@ -4,7 +4,7 @@
 
 Our web-application uses the Vue framework to develop an online marketplace application, that can be locally hosted on your own machine.
 
-# Requiremet Fulfillments and Key Web Components:
+# Requirement Fulfillments and Key Web Components:
 
 - SVGs are used throughout the application to add icons for buttons, corporate logos, and additional aesthetic stylings.
 
