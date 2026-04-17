@@ -61,6 +61,5 @@ async function registerUser() {
 
   localStorage.setItem('currentUser', JSON.stringify(data))
   router.push('/')
-  window.location.reload()
 }
 </script>
