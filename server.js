@@ -35,13 +35,16 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 db.serialize(() => {
+  //database table for listings
   db.run(`CREATE TABLE IF NOT EXISTS items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         price REAL NOT NULL,
         description TEXT NOT NULL,
-        image_url TEXT
+        image_url TEXT,
+        created_time TEXT NOT NULL
     )`)
+  //database table for comments
   db.run(`CREATE TABLE IF NOT EXISTS comments (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         item_id INTEGER NOT NULL,
@@ -85,28 +88,43 @@ db.serialize(() => {
     if (!imageURLFound) {
       db.run('ALTER TABLE items ADD COLUMN image_url TEXT')
     }
-  })
-})
 
+    const foundTime = columns.some((col) => col.name === 'created_time')
+    if (!foundTime) {
+      db.run("ALTER TABLE items ADD COLUMN created_time TEXT")
+      db.run("UPDATE items SET created_time = datetime('now') WHERE created_time IS NULL")
+    }
+  })
+});
+
+//route for single item
+//added check if item is 7 days old to not show
 app.get('/items', (req, res) => {
   const itemId = req.query.id
 
-  db.get('SELECT * FROM items WHERE id = ?', [itemId], (err, item) => {
+  db.get(`SELECT * FROM items WHERE id = ? AND datetime(created_time) >= datetime('now', '-7 days')`, [itemId], (err, item) => {
     db.all('SELECT * FROM comments WHERE item_id = ?', [itemId], (err, comments) => {
       res.json({ item, comments })
     })
   })
-})
+});
 
 /*
 Start of Added Item Listing Server-side Functionality:
 */
 
 app.get('/all-items', (req, res) => {
-  db.all('SELECT * FROM items ORDER BY id DESC', [], (err, rows) => {
-    res.json(rows)
+  //added check if any items are 7 days old to not show
+  db.all(
+    `SELECT * FROM items
+    WHERE datetime(created_time) >= datetime('now', '-7 days')
+    ORDER BY id DESC`,
+    [],
+
+    (err, rows) => {
+      res.json(rows)
   })
-})
+});
 
 // Get Rating
 app.get('/ratings/:itemId', (req, res) => {
@@ -145,10 +163,13 @@ fs.appendFile('data/listings.csv', csvRow, (err) => {
     if (err) {
         console.log("Failed to write to listings csv", err);
     }
-});
+  });
+
+  const created_time = new Date().toISOString();
+
   db.run(
-    'INSERT INTO items (name, price, description, image_url) VALUES (?, ?, ?, ?)',
-    [name, price, description, image_url],
+    'INSERT INTO items (name, price, description, image_url, created_time) VALUES (?, ?, ?, ?, ?)',
+    [name, price, description, image_url, created_time],
     function (err) {
       res.json({
         id: this.lastID,
@@ -156,10 +177,11 @@ fs.appendFile('data/listings.csv', csvRow, (err) => {
         price,
         description,
         image_url,
+        created_time,
       })
     },
   )
-})
+});
 
 /*
 End of Added Item Listing Server-side Functionality
@@ -180,7 +202,7 @@ app.post('/comments', (req, res) => {
       })
     },
   )
-})
+});
 
 app.post('/ratings', (req, res) => {
     const { item_id, user, rating } = req.body;
@@ -210,4 +232,4 @@ app.post('/ratings', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
-})
+});
