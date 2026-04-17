@@ -52,6 +52,24 @@ We added this feature because if a user has posted an item, the user may be sell
 
 Furthermore, for added user interaction there is also a comments section for each item listing.
 
+# To Run the Application:
+
+Firstly, in your terminal ensure you are in the root directory folder, "webdev-otufbmp".
+
+Afterwards, run the following commands to install and start using the web application fully:
+
+```sh
+npm install
+```
+
+```sh
+node server.js
+```
+
+```sh
+npm run build
+```
+
 # Project Setup & Specifications
 ## Recommended IDE Setup
 
