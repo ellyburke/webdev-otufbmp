@@ -11,10 +11,17 @@ let showFavourites = ref(false)
 // Filter to show only favourite posts vs all posts
 function getFavourites() {
   showFavourites.value = !showFavourites.value
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
 
   if (showFavourites.value) {
+    if (!currentUser) {
+      alert('Please log in to view favourites.')
+      showFavourites.value = false
+      return
+    }
+
     postsService
-      .getFavouritePosts(1)
+      .getFavouritePosts(currentUser.id)
       .then((data) => {
         posts.value = data
       })
