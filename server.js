@@ -94,10 +94,12 @@ db.serialize(() => {
     const hasCountry = columns.some((col) => col.name === 'country')
     const hasAccountId = columns.some((col) => col.name === 'account_id')
     const hasCreatedTime = columns.some((col) => col.name === 'created_time')
+    const hasCategory = columns.some((col) => col.name === 'category')
 
     if (!hasImage) db.run('ALTER TABLE items ADD COLUMN image_url TEXT')
     if (!hasCountry) db.run('ALTER TABLE items ADD COLUMN country TEXT')
     if (!hasAccountId) db.run('ALTER TABLE items ADD COLUMN account_id INTEGER')
+    if (!hasCategory) db.run('ALTER TABLE items ADD COLUMN category TEXT')
     if (!hasCreatedTime) {
       db.run("ALTER TABLE items ADD COLUMN created_time TEXT")
       db.run("UPDATE items SET created_time = datetime('now') WHERE created_time IS NULL")

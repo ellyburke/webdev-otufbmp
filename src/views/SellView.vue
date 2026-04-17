@@ -17,6 +17,7 @@ async function addItemListing(post) {
     formData.append('name', post.title)
     formData.append('price', post.price)
     formData.append('description', post.description)
+    formData.append('category', post.category)
     formData.append('country', post.country)
     formData.append('account_id', String(currentUser.id))
 

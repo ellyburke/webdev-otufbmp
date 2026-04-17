@@ -42,6 +42,8 @@ function getFavourites() {
 }
 
 function filterByCategory(category) {
+  console.log('Filtering by category:', category)
+  console.log(posts.value)
   selectedCategory.value = category
 }
 
