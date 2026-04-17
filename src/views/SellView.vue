@@ -10,6 +10,7 @@ async function addItemListing(post) {
         formData.append("name", post.title);
         formData.append("price", post.price);
         formData.append("description", post.description);
+        formData.append("country", post.country);
         
         if (post.image) {
             formData.append("image", post.image);

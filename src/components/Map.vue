@@ -26,11 +26,11 @@ onMounted(async () => {
     .translate([translateX / 2.175, translateY / 3])
 
   const geo = await d3.json('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson')
-  const sales = await d3.csv('../data/sales.csv')
+  const sales = await d3.csv('../data/listings.csv')
 
   const counts = {}
   sales.forEach(sale => {
-    const country = sale.Country 
+    const country = sale.country 
     counts[country] = (counts[country] || 0) + 1
   })
 
