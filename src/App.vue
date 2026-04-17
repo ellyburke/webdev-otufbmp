@@ -17,7 +17,9 @@ function logout() {
   <div class="">
     <nav class="navbar is-dark is-flex is-justify-content-space-between">
       <div class="navbar-brand">
-        <RouterLink to="/" class="navbar-item">OT Marketplace</RouterLink>
+        <RouterLink to="/" class="navbar-item">
+          <img src="./assets/site_logo.png" class="site_logo"/>
+        </RouterLink>
 
         <RouterLink to="/sell" class="navbar-item">
           Sell Here
@@ -68,8 +70,6 @@ function logout() {
   </div>
 </template>
 
-<style></style>
-
 <style scoped>
 .page-layout {
   display: flex;
@@ -80,5 +80,11 @@ function logout() {
 
 .page-content {
   flex: 1;
+}
+
+.site_logo {
+  width: 200px;
+  max-height: none;
+  height: 100px;
 }
 </style>

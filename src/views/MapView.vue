@@ -12,11 +12,13 @@ import Map from '../components/Map.vue'
   </div>
   <br>
   <p>
-    Here you can see the most active countries using <span class="has-text-weight-bold">quick sale</span>.
-    <br><br>
-    The darker the shade of blue the location on the map is, the more items have been listed for sale there!
-    <br><br>
-    List whatever items you want to sell, and maybe your country will become a more darker blue.
+    <span class="has-text-weight-bold">
+      Here you can see the most active countries using quick sale.
+      <br><br>
+      The darker the shade of blue the location on the map is, the more items have been listed for sale there!
+      <br><br>
+      List whatever items you want to sell, and maybe your country will become a more darker blue.
+    </span>
   </p>
 </template>
 
