@@ -8,14 +8,25 @@ export default {
 </script>
 
 <template>
-  <div class="fixed-grid has-3-cols">
-    <div class="grid">
-      <ItemListing
-        class="card pt-3 pb-3"
-        v-for="(post, index) in posts"
-        :key="index"
-        :post="post"
-      />
-    </div>
+  <div class="post-grid">
+    <ItemListing
+      class="card post-card"
+      v-for="(post, index) in posts"
+      :key="index"
+      :post="post"
+    />
   </div>
 </template>
+
+<style scoped>
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.post-card {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+</style>

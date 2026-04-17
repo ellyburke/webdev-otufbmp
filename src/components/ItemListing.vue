@@ -13,8 +13,8 @@ defineProps({
       >{{ post.name }}
     </RouterLink>
 
-    <div v-if="post.image_url">
-      <img :src="`http://localhost:3000${post.image_url}`" alt="Image from Post" />
+    <div v-if="post.image_url" class="image-box">
+        <img :src="`http://localhost:3000${post.image_url}`" alt="Image from Post" />
     </div>
 
     <p class="price">${{ post.price }}</p>
@@ -24,10 +24,30 @@ defineProps({
 </template>
 
 <style scoped>
-img {
-  max-width: 500px;
-  max-height: 500px;
+.post-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.image-box {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.image-box img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  margin: 12px 0;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
