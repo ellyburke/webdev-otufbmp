@@ -94,7 +94,7 @@ watch(() => props.itemId, loadRatings)
     </div>
 
     <div v-if="!compact" class="rating-form">
-      <p class="rating-label">Give us a rating</p>
+      <p class="rating-label">Rate this item yourself:</p>
 
       <div class="star-picker">
         <button

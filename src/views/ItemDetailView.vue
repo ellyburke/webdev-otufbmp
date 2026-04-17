@@ -65,9 +65,12 @@ async function deletePost() {
 
 <template>
   <div v-if="postData">
-    <h1>{{ postData.name }}</h1>
-    <p>{{ postData.description }}</p>
-    <RatingSection :itemId="postData.id" />
+    <br>
+
+    <h1 class="title">{{ postData.name }}</h1>
+    <h1 class="title">Price: ${{ postData.price }}</h1>
+
+    <br>
 
     <img
       v-if="postData.image_url"
@@ -75,13 +78,15 @@ async function deletePost() {
       alt="Image of listing item."
     />
 
+    <br>
+
     <div class="buttons mt-4">
       <button
         v-if="currentUser"
         class="button is-warning"
         @click="toggleFavourite"
       >
-        {{ isFavourited ? 'Unfavourite' : 'Favourite' }}
+        {{ isFavourited ? 'Unfavourite' : 'Favourite this Listing' }}
       </button>
 
       <button
@@ -92,7 +97,31 @@ async function deletePost() {
         Delete
       </button>
     </div>
-  </div>
 
-  <CommentSection :postId="postData?.id" />
+    <h2 class="title">Listing Description:</h2>
+    <p>{{ postData.description }}</p>
+    <br>
+
+    <h1 class="title">Comments:</h1>
+    <CommentSection :postId="postData?.id" />
+    <br>
+
+    <h2 class="subtitle">Current Item Rating:</h2>
+    <RatingSection :itemId="postData.id" />
+    <br><br>
+
+  </div>
+  <br>
 </template>
+
+<style scoped>
+img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+p {
+  font-size: 20px;
+}
+</style>
