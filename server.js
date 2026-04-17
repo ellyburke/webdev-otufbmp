@@ -95,7 +95,7 @@ db.serialize(() => {
       db.run("UPDATE items SET created_time = datetime('now') WHERE created_time IS NULL")
     }
   })
-})
+});
 
 //route for single item
 //added check if item is 7 days old to not show
@@ -107,7 +107,7 @@ app.get('/items', (req, res) => {
       res.json({ item, comments })
     })
   })
-})
+});
 
 /*
 Start of Added Item Listing Server-side Functionality:
@@ -124,7 +124,7 @@ app.get('/all-items', (req, res) => {
     (err, rows) => {
       res.json(rows)
   })
-})
+});
 
 // Get Rating
 app.get('/ratings/:itemId', (req, res) => {
@@ -163,9 +163,12 @@ fs.appendFile('data/listings.csv', csvRow, (err) => {
     if (err) {
         console.log("Failed to write to listings csv", err);
     }
-});
+  });
+
+  const created_time = new Date().toISOString();
+
   db.run(
-    'INSERT INTO items (name, price, description, image_url) VALUES (?, ?, ?, ?)',
+    'INSERT INTO items (name, price, description, image_url, created_time) VALUES (?, ?, ?, ?, ?)',
     [name, price, description, image_url, created_time],
     function (err) {
       res.json({
@@ -178,7 +181,7 @@ fs.appendFile('data/listings.csv', csvRow, (err) => {
       })
     },
   )
-})
+});
 
 /*
 End of Added Item Listing Server-side Functionality
@@ -199,7 +202,7 @@ app.post('/comments', (req, res) => {
       })
     },
   )
-})
+});
 
 app.post('/ratings', (req, res) => {
     const { item_id, user, rating } = req.body;
@@ -229,4 +232,4 @@ app.post('/ratings', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`)
-})
+});
